@@ -36,7 +36,8 @@ export default function DecksPage() {
   }
 
   return (
-    <div className="container py-8 px-4 md:px-6">
+    <div className="w-full">
+      <div className="container max-w-4xl py-8 px-4 md:px-6">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Your Decks</h1>
@@ -113,6 +114,7 @@ export default function DecksPage() {
       )}
 
       <CreateDeckDialog open={isCreateDeckOpen} onOpenChange={setIsCreateDeckOpen} onCreateDeck={handleCreateDeck} />
+    </div>
     </div>
   )
 }

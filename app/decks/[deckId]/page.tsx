@@ -101,7 +101,8 @@ export default function DeckPage() {
   }
 
   return (
-    <div className="container py-8 px-4 md:px-6">
+    <div className="w-full">
+      <div className="container max-w-4xl py-8 px-4 md:px-6">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.push("/decks")}>
@@ -217,6 +218,7 @@ export default function DeckPage() {
         onUpdateDeck={handleUpdateDeck}
         deck={deck}
       />
+    </div>
     </div>
   )
 }

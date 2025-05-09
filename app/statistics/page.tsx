@@ -119,7 +119,8 @@ export default function StatisticsPage() {
   }, [getItem])
 
   return (
-    <div className="container py-8 px-4 md:px-6">
+    <div className="w-full">
+      <div className="container max-w-4xl py-8 px-4 md:px-6">
       <h1 className="text-3xl font-bold tracking-tight mb-8">Statistics</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -168,10 +169,9 @@ export default function StatisticsPage() {
           <TabsTrigger value="calendar">Calendar</TabsTrigger>
           <TabsTrigger value="time">Time</TabsTrigger>
           <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
-          <TabsTrigger value="decks">Deck Progress</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="calendar">
+        <TabsContent value="calendar" className="w-full flex">
           <Card>
             <CardHeader>
               <CardTitle>Study Calendar</CardTitle>
@@ -183,7 +183,7 @@ export default function StatisticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="time">
+        <TabsContent value="time" className="w-full flex">
           <Card>
             <CardHeader>
               <CardTitle>Study Time</CardTitle>
@@ -195,7 +195,7 @@ export default function StatisticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="accuracy">
+        <TabsContent value="accuracy" className="w-full flex">
           <Card>
             <CardHeader>
               <CardTitle>Accuracy Rate</CardTitle>
@@ -206,19 +206,8 @@ export default function StatisticsPage() {
             </CardContent>
           </Card>
         </TabsContent>
-
-        <TabsContent value="decks">
-          <Card>
-            <CardHeader>
-              <CardTitle>Deck Progress</CardTitle>
-              <CardDescription>Compare your progress across different decks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <DeckProgressChart decks={decks} studySessions={studySessions} />
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
+    </div>
     </div>
   )
 }
