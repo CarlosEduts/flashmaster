@@ -1,25 +1,11 @@
-import type { Metadata } from "next"
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-
-export const metadata: Metadata = {
-  title: "FlashMaster - Advanced Flashcard App",
-  description: "An innovative flashcard application for effective learning and memorization",
-}
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b">
-        <div className="container flex h-16 items-center px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-primary">Flash</span>
-            <span>Master</span>
-          </Link>
-        </div>
-      </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
@@ -30,44 +16,42 @@ export default function Home() {
                     Master Any Subject with FlashMaster
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Create, organize, and study flashcards with our powerful spaced repetition system. All your data
-                    stays on your device - no account required.
+                    Create, organize, and study flashcards with our powerful
+                    spaced repetition system. All your data stays on your device
+                    - no account required.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/decks">
                     <Button size="lg" className="gap-1">
-                      Get Started <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                  <Link href="/demo">
-                    <Button size="lg" variant="outline">
-                      Try Demo
+                      Get Started
                     </Button>
                   </Link>
                 </div>
               </div>
+
               <div className="mx-auto lg:mx-0 relative">
                 <div className="absolute -top-4 -left-4 h-72 w-72 bg-primary/20 rounded-full blur-3xl" />
                 <div className="relative bg-background rounded-xl border shadow-lg p-6">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <h3 className="font-semibold text-lg">Spanish Vocabulary</h3>
-                      <div className="text-sm text-muted-foreground">32 cards</div>
+                      <h3 className="font-semibold text-lg">
+                        Spanish Vocabulary
+                      </h3>
+                      <div className="text-sm text-muted-foreground">
+                        32 cards
+                      </div>
                     </div>
-                    <div className="bg-muted rounded-lg p-6 h-40 flex items-center justify-center shadow-sm">
+                    <div className="bg-muted rounded-lg p-4 h-40 flex items-center justify-center shadow-sm">
                       <div className="text-2xl font-medium">¿Cómo estás?</div>
                     </div>
                     <div className="flex justify-between">
                       <Button variant="outline" size="sm">
                         Show Answer
                       </Button>
-                      <div className="flex gap-2">
+                      <div className="flex">
                         <Button variant="ghost" size="sm">
                           Hard
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          Good
                         </Button>
                         <Button variant="ghost" size="sm">
                           Easy
@@ -80,11 +64,14 @@ export default function Home() {
             </div>
           </div>
         </section>
+
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Key Features</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                  Key Features
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Everything you need for effective learning and memorization
                 </p>
@@ -113,7 +100,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Rich Content</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  Create flashcards with text, images, audio, and video for comprehensive learning.
+                  Create flashcards with text, images, audio, and video for
+                  comprehensive learning.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
@@ -136,7 +124,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Spaced Repetition</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  Optimize your learning with our advanced spaced repetition algorithm.
+                  Optimize your learning with our advanced spaced repetition
+                  algorithm.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
@@ -160,7 +149,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Local Storage</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  All your data is stored locally on your device. No account required.
+                  All your data is stored locally on your device. No account
+                  required.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
@@ -185,7 +175,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Detailed Statistics</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  Track your progress with comprehensive statistics and performance metrics.
+                  Track your progress with comprehensive statistics and
+                  performance metrics.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
@@ -209,7 +200,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Organization</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  Organize your flashcards into decks and categories for efficient studying.
+                  Organize your flashcards into decks and categories for
+                  efficient studying.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
@@ -232,32 +224,42 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Customizable</h3>
                 <p className="text-sm text-muted-foreground text-center">
-                  Personalize your experience with themes, layouts, and study settings.
+                  Personalize your experience with themes, layouts, and study
+                  settings.
                 </p>
               </div>
             </div>
           </div>
         </section>
       </main>
+      
       <footer className="border-t py-6">
         <div className="container flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
           <p className="text-center text-sm text-muted-foreground md:text-left">
             © 2025 FlashMaster. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Link href="/privacy" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+            >
               Privacy
             </Link>
-            <Link href="/terms" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+            >
               Terms
             </Link>
-            <Link href="/contact" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/contact"
+              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+            >
               Contact
             </Link>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
-

@@ -165,8 +165,8 @@ export default function StatisticsPage() {
 
       <Tabs defaultValue="calendar" className="w-full">
         <TabsList className="mb-6">
-          <TabsTrigger value="calendar">Study Calendar</TabsTrigger>
-          <TabsTrigger value="time">Study Time</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar</TabsTrigger>
+          <TabsTrigger value="time">Time</TabsTrigger>
           <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
           <TabsTrigger value="decks">Deck Progress</TabsTrigger>
         </TabsList>

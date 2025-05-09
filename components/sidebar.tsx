@@ -1,11 +1,19 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { BarChart3, FolderPlus, LayoutDashboard, Library, Plus, Settings, Tag } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  BarChart3,
+  FolderPlus,
+  LayoutDashboard,
+  Library,
+  Plus,
+  Settings,
+  Tag,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sidebar,
   SidebarContent,
@@ -17,27 +25,30 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
-} from "@/components/ui/sidebar"
-import { useLocalStorage } from "@/hooks/use-local-storage"
-import type { Deck } from "@/types/deck"
-import { CreateDeckDialog } from "@/components/create-deck-dialog"
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import type { Deck } from "@/types/deck";
+import { CreateDeckDialog } from "@/components/create-deck-dialog";
 
 export function AppSidebar() {
-  const pathname = usePathname()
-  const { getItem } = useLocalStorage()
-  const [decks, setDecks] = useState<Deck[]>([])
-  const [categories, setCategories] = useState<string[]>([])
-  const [isCreateDeckOpen, setIsCreateDeckOpen] = useState(false)
+  const pathname = usePathname();
+  const { getItem } = useLocalStorage();
+  const [decks, setDecks] = useState<Deck[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [isCreateDeckOpen, setIsCreateDeckOpen] = useState(false);
 
   useEffect(() => {
-    const storedDecks = getItem<Deck[]>("flashmaster:decks") || []
-    setDecks(storedDecks)
+    const storedDecks = getItem<Deck[]>("flashmaster:decks") || [];
+    setDecks(storedDecks);
 
     // Extract unique categories
-    const uniqueCategories = Array.from(new Set(storedDecks.map((deck) => deck.category).filter(Boolean))) as string[]
+    const uniqueCategories = Array.from(
+      new Set(storedDecks.map((deck) => deck.category).filter(Boolean))
+    ) as string[];
 
-    setCategories(uniqueCategories)
-  }, [getItem])
+    setCategories(uniqueCategories);
+  }, [getItem]);
 
   return (
     <>
@@ -64,7 +75,10 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname === "/statistics"}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/statistics"}
+                  >
                     <Link href="/statistics">
                       <BarChart3 className="h-4 w-4" />
                       <span>Statistics</span>
@@ -72,7 +86,10 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname === "/settings"}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/settings"}
+                  >
                     <Link href="/settings">
                       <Settings className="h-4 w-4" />
                       <span>Settings</span>
@@ -86,7 +103,12 @@ export function AppSidebar() {
           <SidebarGroup>
             <div className="flex items-center justify-between px-2">
               <SidebarGroupLabel>Decks</SidebarGroupLabel>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setIsCreateDeckOpen(true)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={() => setIsCreateDeckOpen(true)}
+              >
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Add Deck</span>
               </Button>
@@ -99,7 +121,9 @@ export function AppSidebar() {
                       <div className="rounded-full bg-primary/10 p-2 mb-2 mx-auto w-fit">
                         <FolderPlus className="h-4 w-4 text-primary" />
                       </div>
-                      <p className="text-xs text-muted-foreground">No decks yet</p>
+                      <p className="text-xs text-muted-foreground">
+                        No decks yet
+                      </p>
                       <Button
                         variant="link"
                         size="sm"
@@ -116,7 +140,10 @@ export function AppSidebar() {
                         .filter((deck) => !deck.category)
                         .map((deck) => (
                           <SidebarMenuItem key={deck.id}>
-                            <SidebarMenuButton asChild isActive={pathname === `/decks/${deck.id}`}>
+                            <SidebarMenuButton
+                              asChild
+                              isActive={pathname === `/decks/${deck.id}`}
+                            >
                               <Link href={`/decks/${deck.id}`}>
                                 <span>{deck.name}</span>
                               </Link>
@@ -135,7 +162,10 @@ export function AppSidebar() {
                             .filter((deck) => deck.category === category)
                             .map((deck) => (
                               <SidebarMenuItem key={deck.id}>
-                                <SidebarMenuButton asChild isActive={pathname === `/decks/${deck.id}`}>
+                                <SidebarMenuButton
+                                  asChild
+                                  isActive={pathname === `/decks/${deck.id}`}
+                                >
                                   <Link href={`/decks/${deck.id}`}>
                                     <span>{deck.name}</span>
                                   </Link>
@@ -151,28 +181,21 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className="border-t p-4">
-          <Button variant="outline" className="w-full" onClick={() => setIsCreateDeckOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            New Deck
-          </Button>
-        </SidebarFooter>
       </Sidebar>
 
       <CreateDeckDialog
         open={isCreateDeckOpen}
         onOpenChange={setIsCreateDeckOpen}
         onCreateDeck={(newDeck) => {
-          const storedDecks = getItem<Deck[]>("flashmaster:decks") || []
-          setDecks([...storedDecks, newDeck])
+          const storedDecks = getItem<Deck[]>("flashmaster:decks") || [];
+          setDecks([...storedDecks, newDeck]);
 
           // Update categories if needed
           if (newDeck.category && !categories.includes(newDeck.category)) {
-            setCategories([...categories, newDeck.category])
+            setCategories([...categories, newDeck.category]);
           }
         }}
       />
     </>
-  )
+  );
 }
-

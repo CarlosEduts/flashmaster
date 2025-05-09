@@ -114,7 +114,7 @@ export function StudyCalendar({ studySessions }: StudyCalendarProps) {
                 className="w-6 h-6 rounded-sm mr-1 flex items-center justify-center text-xs relative group"
                 style={{
                   backgroundColor:
-                    day.intensity === 0 ? "var(--background)" : `hsl(var(--primary) / ${day.intensity * 20}%)`,
+                    day.intensity === 0 ? "rgba(120, 120, 120, 0.1)" : `hsl(var(--primary) / ${day.count * 20}%)`,
                   border: "1px solid var(--border)",
                 }}
               >
