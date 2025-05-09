@@ -1,94 +1,95 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { v4 as uuidv4 } from "uuid"
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, X } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { useLocalStorage } from "@/hooks/use-local-storage"
-import type { Card as FlashCard, Deck } from "@/types/deck"
-import type { StudySession } from "@/types/statistics"
-import { calculateNextReview } from "@/lib/spaced-repetition"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import type { Card as FlashCard, Deck } from "@/types/deck";
+import type { StudySession } from "@/types/statistics";
+import { calculateNextReview } from "@/lib/spaced-repetition";
 
 export default function StudyPage() {
-  const params = useParams()
-  const router = useRouter()
-  const { getItem, setItem } = useLocalStorage()
-  const [deck, setDeck] = useState<Deck | null>(null)
-  const [cards, setCards] = useState<FlashCard[]>([])
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-  const [showAnswer, setShowAnswer] = useState(false)
+  const params = useParams();
+  const router = useRouter();
+  const { getItem, setItem } = useLocalStorage();
+  const [deck, setDeck] = useState<Deck | null>(null);
+  const [cards, setCards] = useState<FlashCard[]>([]);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [studySession, setStudySession] = useState({
     correct: 0,
     incorrect: 0,
     total: 0,
-  })
-  const [startTime, setStartTime] = useState<Date | null>(null)
-  const deckId = params.deckId as string
+  });
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const deckId = params.deckId as string;
 
   useEffect(() => {
     const loadDeckAndCards = () => {
-      const decks = getItem<Deck[]>("flashmaster:decks") || []
-      const currentDeck = decks.find((d) => d.id === deckId)
+      const decks = getItem<Deck[]>("flashmaster:decks") || [];
+      const currentDeck = decks.find((d) => d.id === deckId);
 
       if (!currentDeck) {
-        router.push("/decks")
-        return
+        router.push("/decks");
+        return;
       }
 
-      setDeck(currentDeck)
+      setDeck(currentDeck);
 
-      const deckCards = getItem<FlashCard[]>(`flashmaster:cards:${deckId}`) || []
+      const deckCards =
+        getItem<FlashCard[]>(`flashmaster:cards:${deckId}`) || [];
 
       // Sort cards by due date (cards due for review first)
       const sortedCards = [...deckCards].sort((a, b) => {
-        const aDue = a.nextReview ? new Date(a.nextReview).getTime() : 0
-        const bDue = b.nextReview ? new Date(b.nextReview).getTime() : 0
-        return aDue - bDue
-      })
+        const aDue = a.nextReview ? new Date(a.nextReview).getTime() : 0;
+        const bDue = b.nextReview ? new Date(b.nextReview).getTime() : 0;
+        return aDue - bDue;
+      });
 
-      setCards(sortedCards)
+      setCards(sortedCards);
       setStudySession({
         correct: 0,
         incorrect: 0,
         total: sortedCards.length,
-      })
-      setStartTime(new Date())
-    }
+      });
+      setStartTime(new Date());
+    };
 
-    loadDeckAndCards()
-  }, [deckId, getItem, router])
+    loadDeckAndCards();
+  }, [deckId, getItem, router]);
 
   const handleShowAnswer = () => {
-    setShowAnswer(true)
-  }
+    setShowAnswer(true);
+  };
 
   const handleResponse = (quality: number) => {
-    if (cards.length === 0) return
+    if (cards.length === 0) return;
 
-    const currentCard = cards[currentCardIndex]
+    const currentCard = cards[currentCardIndex];
     const updatedCard = {
       ...currentCard,
       lastReviewed: new Date().toISOString(),
       nextReview: calculateNextReview(currentCard, quality).toISOString(),
       reviewCount: (currentCard.reviewCount || 0) + 1,
-    }
+    };
 
     // Update card in storage
-    const updatedCards = [...cards]
-    updatedCards[currentCardIndex] = updatedCard
-    setCards(updatedCards)
-    setItem(`flashmaster:cards:${deckId}`, updatedCards)
+    const updatedCards = [...cards];
+    updatedCards[currentCardIndex] = updatedCard;
+    setCards(updatedCards);
+    setItem(`flashmaster:cards:${deckId}`, updatedCards);
 
     // Update study session stats
     setStudySession((prev) => ({
       ...prev,
       correct: quality >= 3 ? prev.correct + 1 : prev.correct,
       incorrect: quality < 3 ? prev.incorrect + 1 : prev.incorrect,
-    }))
+    }));
 
     // Update deck stats
     if (deck) {
@@ -96,23 +97,27 @@ export default function StudyPage() {
         ...deck,
         lastStudied: new Date().toISOString(),
         studyCount: (deck.studyCount || 0) + 1,
-      }
+      };
 
-      const decks = getItem<Deck[]>("flashmaster:decks") || []
-      const updatedDecks = decks.map((d) => (d.id === deckId ? updatedDeck : d))
-      setItem("flashmaster:decks", updatedDecks)
-      setDeck(updatedDeck)
+      const decks = getItem<Deck[]>("flashmaster:decks") || [];
+      const updatedDecks = decks.map((d) =>
+        d.id === deckId ? updatedDeck : d
+      );
+      setItem("flashmaster:decks", updatedDecks);
+      setDeck(updatedDeck);
     }
 
     // Move to next card or finish
     if (currentCardIndex < cards.length - 1) {
-      setCurrentCardIndex(currentCardIndex + 1)
-      setShowAnswer(false)
+      setCurrentCardIndex(currentCardIndex + 1);
+      setShowAnswer(false);
     } else {
       // Study session complete - save session data
       if (startTime) {
-        const endTime = new Date()
-        const studyTimeSeconds = Math.round((endTime.getTime() - startTime.getTime()) / 1000)
+        const endTime = new Date();
+        const studyTimeSeconds = Math.round(
+          (endTime.getTime() - startTime.getTime()) / 1000
+        );
 
         const newSession: StudySession = {
           id: uuidv4(),
@@ -121,16 +126,17 @@ export default function StudyPage() {
           cardsStudied: cards.length,
           correctAnswers: studySession.correct,
           studyTimeSeconds,
-        }
+        };
 
-        const sessions = getItem<StudySession[]>("flashmaster:study-sessions") || []
-        setItem("flashmaster:study-sessions", [...sessions, newSession])
+        const sessions =
+          getItem<StudySession[]>("flashmaster:study-sessions") || [];
+        setItem("flashmaster:study-sessions", [...sessions, newSession]);
       }
 
       // Navigate to completion page
-      router.push(`/decks/${deckId}/study/complete`)
+      router.push(`/decks/${deckId}/study/complete`);
     }
-  }
+  };
 
   if (!deck || cards.length === 0) {
     return (
@@ -139,17 +145,21 @@ export default function StudyPage() {
           <p>Loading study session...</p>
         </div>
       </div>
-    )
+    );
   }
 
-  const currentCard = cards[currentCardIndex]
-  const progress = (currentCardIndex / cards.length) * 100
+  const currentCard = cards[currentCardIndex];
+  const progress = (currentCardIndex / cards.length) * 100;
 
   return (
     <div className="container py-8 px-4 md:px-6 max-w-3xl">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => router.push(`/decks/${deckId}`)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => router.push(`/decks/${deckId}`)}
+          >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
@@ -161,8 +171,14 @@ export default function StudyPage() {
         </div>
         <div className="flex items-center gap-2">
           <div className="text-sm text-muted-foreground">
-            <span className="text-green-500 font-medium">{studySession.correct}</span> correct,{" "}
-            <span className="text-red-500 font-medium">{studySession.incorrect}</span> incorrect
+            <span className="text-green-500 font-medium">
+              {studySession.correct}
+            </span>{" "}
+            correct,{" "}
+            <span className="text-red-500 font-medium">
+              {studySession.incorrect}
+            </span>{" "}
+            incorrect
           </div>
         </div>
       </div>
@@ -172,7 +188,9 @@ export default function StudyPage() {
       <Card className="mb-8">
         <CardContent className="p-0">
           <div className="p-8 bg-muted/50 border-b min-h-[200px] flex items-center justify-center">
-            <div className="text-xl font-medium text-center">{currentCard.front}</div>
+            <div className="text-xl font-medium text-center">
+              {currentCard.front}
+            </div>
           </div>
           {showAnswer && (
             <div className="p-8 min-h-[200px] flex items-center justify-center">
@@ -228,8 +246,8 @@ export default function StudyPage() {
           variant="ghost"
           onClick={() => {
             if (currentCardIndex > 0) {
-              setCurrentCardIndex(currentCardIndex - 1)
-              setShowAnswer(false)
+              setCurrentCardIndex(currentCardIndex - 1);
+              setShowAnswer(false);
             }
           }}
           disabled={currentCardIndex === 0}
@@ -241,8 +259,8 @@ export default function StudyPage() {
           variant="ghost"
           onClick={() => {
             if (currentCardIndex < cards.length - 1) {
-              setCurrentCardIndex(currentCardIndex + 1)
-              setShowAnswer(false)
+              setCurrentCardIndex(currentCardIndex + 1);
+              setShowAnswer(false);
             }
           }}
           disabled={currentCardIndex === cards.length - 1}
@@ -252,6 +270,5 @@ export default function StudyPage() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
-

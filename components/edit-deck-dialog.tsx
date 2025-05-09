@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,37 +12,42 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import type { Deck } from "@/types/deck"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import type { Deck } from "@/types/deck";
 
 interface EditDeckDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onUpdateDeck: (deck: Deck) => void
-  deck: Deck
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onUpdateDeck: (deck: Deck) => void;
+  deck: Deck;
 }
 
-export function EditDeckDialog({ open, onOpenChange, onUpdateDeck, deck }: EditDeckDialogProps) {
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [nameError, setNameError] = useState("")
+export function EditDeckDialog({
+  open,
+  onOpenChange,
+  onUpdateDeck,
+  deck,
+}: EditDeckDialogProps) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [nameError, setNameError] = useState("");
 
   useEffect(() => {
     if (deck) {
-      setName(deck.name)
-      setDescription(deck.description || "")
+      setName(deck.name);
+      setDescription(deck.description || "");
     }
-  }, [deck, open])
+  }, [deck, open]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!name.trim()) {
-      setNameError("Deck name is required")
-      return
+      setNameError("Deck name is required");
+      return;
     }
 
     const updatedDeck: Deck = {
@@ -50,25 +55,25 @@ export function EditDeckDialog({ open, onOpenChange, onUpdateDeck, deck }: EditD
       name: name.trim(),
       description: description.trim(),
       updatedAt: new Date().toISOString(),
-    }
+    };
 
-    onUpdateDeck(updatedDeck)
-  }
+    onUpdateDeck(updatedDeck);
+  };
 
   const resetForm = () => {
     if (deck) {
-      setName(deck.name)
-      setDescription(deck.description || "")
+      setName(deck.name);
+      setDescription(deck.description || "");
     }
-    setNameError("")
-  }
+    setNameError("");
+  };
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      resetForm()
+      resetForm();
     }
-    onOpenChange(open)
-  }
+    onOpenChange(open);
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -76,20 +81,27 @@ export function EditDeckDialog({ open, onOpenChange, onUpdateDeck, deck }: EditD
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Edit deck</DialogTitle>
-            <DialogDescription>Update the name and description of your flashcard deck.</DialogDescription>
+            <DialogDescription>
+              Update the name and description of your flashcard deck.
+            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="edit-name" className="flex items-center justify-between">
+              <Label
+                htmlFor="edit-name"
+                className="flex items-center justify-between"
+              >
                 Deck name
-                {nameError && <span className="text-xs text-destructive">{nameError}</span>}
+                {nameError && (
+                  <span className="text-xs text-destructive">{nameError}</span>
+                )}
               </Label>
               <Input
                 id="edit-name"
                 value={name}
                 onChange={(e) => {
-                  setName(e.target.value)
-                  if (e.target.value.trim()) setNameError("")
+                  setName(e.target.value);
+                  if (e.target.value.trim()) setNameError("");
                 }}
                 className={nameError ? "border-destructive" : ""}
               />
@@ -105,7 +117,11 @@ export function EditDeckDialog({ open, onOpenChange, onUpdateDeck, deck }: EditD
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => handleOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOpenChange(false)}
+            >
               Cancel
             </Button>
             <Button type="submit">Save Changes</Button>
@@ -113,6 +129,5 @@ export function EditDeckDialog({ open, onOpenChange, onUpdateDeck, deck }: EditD
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

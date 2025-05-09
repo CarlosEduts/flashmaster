@@ -1,87 +1,87 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { addDays, format, startOfWeek, subMonths } from "date-fns"
-import type { StudySession } from "@/types/statistics"
+import { useState } from "react";
+import { addDays, format, startOfWeek, subMonths } from "date-fns";
+import type { StudySession } from "@/types/statistics";
 
 interface StudyCalendarProps {
-  studySessions: StudySession[]
+  studySessions: StudySession[];
 }
 
 export function StudyCalendar({ studySessions }: StudyCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   // Generate calendar data for the last 3 months
   const generateCalendarData = () => {
-    const startDate = subMonths(currentDate, 3)
-    const endDate = currentDate
+    const startDate = subMonths(currentDate, 3);
+    const endDate = currentDate;
 
     // Create a map of dates to card counts
-    const dateMap = new Map<string, number>()
+    const dateMap = new Map<string, number>();
 
     studySessions.forEach((session) => {
-      const dateStr = new Date(session.date).toISOString().split("T")[0]
-      const existing = dateMap.get(dateStr) || 0
-      dateMap.set(dateStr, existing + session.cardsStudied)
-    })
+      const dateStr = new Date(session.date).toISOString().split("T")[0];
+      const existing = dateMap.get(dateStr) || 0;
+      dateMap.set(dateStr, existing + session.cardsStudied);
+    });
 
     // Generate calendar cells
-    const calendarData = []
-    let currentWeek = []
+    const calendarData = [];
+    let currentWeek = [];
 
     // Start with the first day of the week containing the start date
-    let day = startOfWeek(startDate)
+    let day = startOfWeek(startDate);
 
     while (day <= endDate) {
-      const dateStr = day.toISOString().split("T")[0]
-      const cardCount = dateMap.get(dateStr) || 0
+      const dateStr = day.toISOString().split("T")[0];
+      const cardCount = dateMap.get(dateStr) || 0;
 
       currentWeek.push({
         date: new Date(day),
         count: cardCount,
         intensity: getIntensity(cardCount),
-      })
+      });
 
       // Start a new week
       if (currentWeek.length === 7) {
-        calendarData.push([...currentWeek])
-        currentWeek = []
+        calendarData.push([...currentWeek]);
+        currentWeek = [];
       }
 
-      day = addDays(day, 1)
+      day = addDays(day, 1);
     }
 
     // Add the last partial week if needed
     if (currentWeek.length > 0) {
-      calendarData.push([...currentWeek])
+      calendarData.push([...currentWeek]);
     }
 
-    return calendarData
-  }
+    return calendarData;
+  };
 
   // Calculate color intensity based on card count
   const getIntensity = (count: number): number => {
-    if (count === 0) return 0
-    if (count < 10) return 1
-    if (count < 25) return 2
-    if (count < 50) return 3
-    return 4
-  }
+    if (count === 0) return 0;
+    if (count < 10) return 1;
+    if (count < 25) return 2;
+    if (count < 50) return 3;
+    return 4;
+  };
 
-  const calendarData = generateCalendarData()
+  const calendarData = generateCalendarData();
 
   // Get month labels
   const getMonthLabels = () => {
-    const months = new Set<string>()
+    const months = new Set<string>();
     calendarData.forEach((week) => {
       week.forEach((day) => {
-        months.add(format(day.date, "MMM"))
-      })
-    })
-    return Array.from(months)
-  }
+        months.add(format(day.date, "MMM"));
+      });
+    });
+    return Array.from(months);
+  };
 
-  const monthLabels = getMonthLabels()
+  const monthLabels = getMonthLabels();
 
   return (
     <div className="w-full">
@@ -114,7 +114,9 @@ export function StudyCalendar({ studySessions }: StudyCalendarProps) {
                 className="w-6 h-6 rounded-sm mr-1 flex items-center justify-center text-xs relative group"
                 style={{
                   backgroundColor:
-                    day.intensity === 0 ? "rgba(120, 120, 120, 0.1)" : `hsl(var(--primary) / ${day.count * 20}%)`,
+                    day.intensity === 0
+                      ? "rgba(120, 120, 120, 0.1)"
+                      : `hsl(var(--primary) / ${day.count * 20}%)`,
                   border: "1px solid var(--border)",
                 }}
               >
@@ -132,16 +134,30 @@ export function StudyCalendar({ studySessions }: StudyCalendarProps) {
         <div className="flex space-x-1">
           <div
             className="w-3 h-3 rounded-sm"
-            style={{ backgroundColor: "var(--background)", border: "1px solid var(--border)" }}
+            style={{
+              backgroundColor: "var(--background)",
+              border: "1px solid var(--border)",
+            }}
           ></div>
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "hsl(var(--primary) / 20%)" }}></div>
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "hsl(var(--primary) / 40%)" }}></div>
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "hsl(var(--primary) / 60%)" }}></div>
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "hsl(var(--primary) / 80%)" }}></div>
+          <div
+            className="w-3 h-3 rounded-sm"
+            style={{ backgroundColor: "hsl(var(--primary) / 20%)" }}
+          ></div>
+          <div
+            className="w-3 h-3 rounded-sm"
+            style={{ backgroundColor: "hsl(var(--primary) / 40%)" }}
+          ></div>
+          <div
+            className="w-3 h-3 rounded-sm"
+            style={{ backgroundColor: "hsl(var(--primary) / 60%)" }}
+          ></div>
+          <div
+            className="w-3 h-3 rounded-sm"
+            style={{ backgroundColor: "hsl(var(--primary) / 80%)" }}
+          ></div>
         </div>
         <span className="ml-2">More</span>
       </div>
     </div>
-  )
+  );
 }
-

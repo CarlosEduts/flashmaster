@@ -1,9 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-
-import type React from "react";
-
 import { useEffect, useState } from "react";
 import { Check, Moon, Palette, Sun } from "lucide-react";
 
