@@ -8,9 +8,9 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-              <div className="flex flex-col justify-center space-y-4">
+          <div className="container flex justify-center px-4 md:px-6">
+            <div className="grid gap-6 items-center">
+              <div className="flex flex-col justify-center items-center max-w-lg text-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                     Master Any Subject with FlashMaster
@@ -30,7 +30,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mx-auto lg:mx-0 relative">
+              <div className="mx-auto max-w-lg lg:mx-0 relative">
                 <div className="absolute -top-4 -left-4 h-72 w-72 bg-primary/20 rounded-full blur-3xl" />
                 <div className="relative bg-background rounded-xl border shadow-lg p-6">
                   <div className="space-y-4">
@@ -232,33 +232,11 @@ export default function Home() {
           </div>
         </section>
       </main>
-      
+
       <footer className="border-t py-6">
-        <div className="container flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
-            © 2025 FlashMaster. All rights reserved.
-          </p>
-          <div className="flex gap-4">
-            <Link
-              href="/privacy"
-              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/contact"
-              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
+        <p className="text-center text-sm text-muted-foreground">
+          © 2025 FlashMaster. All rights reserved.
+        </p>
       </footer>
     </div>
   );
