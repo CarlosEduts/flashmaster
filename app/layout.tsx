@@ -38,12 +38,14 @@ export default function RootLayout({
             <AppSidebar />
             <SidebarInset className="pt-0">
               <div>
-                <header className="border-b">
+                <header className="">
                   <div className="container flex h-[52px] items-start px-4 sm:px-6">
-                    <div className="flex items-center gap-2 font-bold text-xl">
-                      <SidebarTrigger variant="outline" className="p-4 m-2" />
-                      <span className="text-primary">Flash</span>
-                      <span>Master</span>
+                    <div className="flex items-center gap-2 font-bold text-xl border mt-3 pl-2 pr-4 py-1 rounded-md">
+                      <SidebarTrigger className="p-4" />
+                      <div>
+                        <span className="text-primary">Flash</span>
+                        <span>Master</span>
+                      </div>
                     </div>
                   </div>
                 </header>
