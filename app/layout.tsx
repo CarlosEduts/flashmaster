@@ -15,7 +15,7 @@ import { AppSidebar } from "@/components/sidebar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FlashMaster - Advanced Flashcard App",
+  title: "FlashMaster - Advanced Flashcard",
   description:
     "An innovative flashcard application for effective learning and memorization",
 };
