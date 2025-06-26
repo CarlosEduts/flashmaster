@@ -462,28 +462,6 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="auto-play-audio">Auto-play audio</Label>
-                  <Switch
-                    id="auto-play-audio"
-                    checked={settings.autoPlayAudio}
-                    onCheckedChange={(checked) =>
-                      handleSettingChange("autoPlayAudio", checked)
-                    }
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="show-image-first">
-                    Show images before text
-                  </Label>
-                  <Switch
-                    id="show-image-first"
-                    checked={settings.showImageFirst}
-                    onCheckedChange={(checked) =>
-                      handleSettingChange("showImageFirst", checked)
-                    }
-                  />
-                </div>
-                <div className="flex items-center justify-between">
                   <Label htmlFor="enable-spaced-repetition">
                     Enable spaced repetition
                   </Label>
