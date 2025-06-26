@@ -157,7 +157,7 @@ export default function DeckPage() {
                   className="text-destructive focus:text-destructive"
                   onClick={handleDeleteDeck}
                 >
-                  <Trash2 className="h-4 w-4 mr-2" />
+                  <Trash2 className="h-4 w-4 mr-2 text-destructive" />
                   Delete Deck
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -188,7 +188,7 @@ export default function DeckPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {cards.map((card) => (
-                  <Card key={card.id} className="overflow-hidden">
+                  <Card key={card.id} className="overflow-hidden py-0">
                     <CardContent className="p-0">
                       <div className="p-6 bg-muted/50 border-b">
                         <div className="font-medium">{card.front}</div>
