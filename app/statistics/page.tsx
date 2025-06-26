@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Calendar, Clock, BarChart3, PieChart } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Calendar, Clock, BarChart3, PieChart } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StudyCalendar } from "@/components/study-calendar"
-import { StudyTimeChart } from "@/components/study-time-chart"
-import { AccuracyChart } from "@/components/accuracy-chart"
-import { useLocalStorage } from "@/hooks/use-local-storage"
-import type { Deck } from "@/types/deck"
-import type { StudySession } from "@/types/statistics"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { StudyCalendar } from "@/components/study-calendar";
+import { StudyTimeChart } from "@/components/study-time-chart";
+import { AccuracyChart } from "@/components/accuracy-chart";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import type { Deck } from "@/types/deck";
+import type { StudySession } from "@/types/statistics";
 
 export default function StatisticsPage() {
-  const { getItem } = useLocalStorage()
-  const [decks, setDecks] = useState<Deck[]>([])
-  const [studySessions, setStudySessions] = useState<StudySession[]>([])
+  const { getItem } = useLocalStorage();
+  const [decks, setDecks] = useState<Deck[]>([]);
+  const [studySessions, setStudySessions] = useState<StudySession[]>([]);
   const [stats, setStats] = useState({
     totalCards: 0,
     totalStudied: 0,
@@ -24,57 +30,74 @@ export default function StatisticsPage() {
     studyDays: 0,
     longestStreak: 0,
     currentStreak: 0,
-  })
+  });
 
   useEffect(() => {
     const loadData = () => {
-      const storedDecks = getItem<Deck[]>("flashmaster:decks") || []
-      setDecks(storedDecks)
+      const storedDecks = getItem<Deck[]>("flashmaster:decks") || [];
+      setDecks(storedDecks);
 
-      const storedSessions = getItem<StudySession[]>("flashmaster:study-sessions") || []
-      setStudySessions(storedSessions)
+      const storedSessions =
+        getItem<StudySession[]>("flashmaster:study-sessions") || [];
+      setStudySessions(storedSessions);
 
       // Calculate statistics
       if (storedSessions.length > 0) {
-        const totalCards = storedSessions.reduce((sum, session) => sum + session.cardsStudied, 0)
-        const totalCorrect = storedSessions.reduce((sum, session) => sum + session.correctAnswers, 0)
-        const totalTime = storedSessions.reduce((sum, session) => sum + session.studyTimeSeconds, 0)
-        const accuracy = totalCards > 0 ? (totalCorrect / totalCards) * 100 : 0
+        const totalCards = storedSessions.reduce(
+          (sum, session) => sum + session.cardsStudied,
+          0
+        );
+        const totalCorrect = storedSessions.reduce(
+          (sum, session) => sum + session.correctAnswers,
+          0
+        );
+        const totalTime = storedSessions.reduce(
+          (sum, session) => sum + session.studyTimeSeconds,
+          0
+        );
+        const accuracy = totalCards > 0 ? (totalCorrect / totalCards) * 100 : 0;
 
         // Calculate study days and streaks
-        const studyDays = new Set(storedSessions.map((session) => new Date(session.date).toISOString().split("T")[0]))
-          .size
+        const studyDays = new Set(
+          storedSessions.map(
+            (session) => new Date(session.date).toISOString().split("T")[0]
+          )
+        ).size;
 
         // Calculate streaks
         const sortedDates = [
-          ...new Set(storedSessions.map((session) => new Date(session.date).toISOString().split("T")[0])),
-        ].sort()
+          ...new Set(
+            storedSessions.map(
+              (session) => new Date(session.date).toISOString().split("T")[0]
+            )
+          ),
+        ].sort();
 
-        let currentStreak = 0
-        let longestStreak = 0
-        let tempStreak = 0
+        let currentStreak = 0;
+        let longestStreak = 0;
+        let tempStreak = 0;
 
         // Check if user studied today
-        const today = new Date().toISOString().split("T")[0]
-        const hasStudiedToday = sortedDates.includes(today)
+        const today = new Date().toISOString().split("T")[0];
+        const hasStudiedToday = sortedDates.includes(today);
 
         if (hasStudiedToday) {
-          currentStreak = 1
-          tempStreak = 1
+          currentStreak = 1;
+          tempStreak = 1;
 
           // Count backwards from yesterday
-          const yesterday = new Date()
-          yesterday.setDate(yesterday.getDate() - 1)
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
 
-          const checkDate = yesterday
+          const checkDate = yesterday;
           while (true) {
-            const dateStr = checkDate.toISOString().split("T")[0]
+            const dateStr = checkDate.toISOString().split("T")[0];
             if (sortedDates.includes(dateStr)) {
-              currentStreak++
-              tempStreak++
-              checkDate.setDate(checkDate.getDate() - 1)
+              currentStreak++;
+              tempStreak++;
+              checkDate.setDate(checkDate.getDate() - 1);
             } else {
-              break
+              break;
             }
           }
         }
@@ -82,23 +105,25 @@ export default function StatisticsPage() {
         // Calculate longest streak
         for (let i = 0; i < sortedDates.length; i++) {
           if (i === 0) {
-            tempStreak = 1
+            tempStreak = 1;
           } else {
-            const currentDate = new Date(sortedDates[i])
-            const prevDate = new Date(sortedDates[i - 1])
+            const currentDate = new Date(sortedDates[i]);
+            const prevDate = new Date(sortedDates[i - 1]);
 
-            const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime())
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+            const diffTime = Math.abs(
+              currentDate.getTime() - prevDate.getTime()
+            );
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
             if (diffDays === 1) {
-              tempStreak++
+              tempStreak++;
             } else {
-              tempStreak = 1
+              tempStreak = 1;
             }
           }
 
           if (tempStreak > longestStreak) {
-            longestStreak = tempStreak
+            longestStreak = tempStreak;
           }
         }
 
@@ -110,104 +135,122 @@ export default function StatisticsPage() {
           studyDays,
           longestStreak,
           currentStreak,
-        })
+        });
       }
-    }
+    };
 
-    loadData()
-  }, [getItem])
+    loadData();
+  }, [getItem]);
 
   return (
     <div className="w-full">
       <div className="container max-w-4xl py-8 px-4 md:px-6">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Statistics</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-8">Statistics</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-primary" />
-              <div className="text-2xl font-bold">{stats.totalCards}</div>
-            </div>
-            <div className="text-sm text-muted-foreground">Cards Studied</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" />
-              <div className="text-2xl font-bold">
-                {Math.floor(stats.totalTime / 60)}m {stats.totalTime % 60}s
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <Card className="bg-muted/60 border-none">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                <div className="text-2xl font-bold">{stats.totalCards}</div>
               </div>
-            </div>
-            <div className="text-sm text-muted-foreground">Total Study Time</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <PieChart className="h-5 w-5 text-primary" />
-              <div className="text-2xl font-bold">{stats.averageAccuracy}%</div>
-            </div>
-            <div className="text-sm text-muted-foreground">Average Accuracy</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <div className="text-2xl font-bold">{stats.currentStreak} days</div>
-            </div>
-            <div className="text-sm text-muted-foreground">Current Streak</div>
-          </CardContent>
-        </Card>
+              <div className="text-sm text-muted-foreground">Cards Studied</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-muted/60 border-none">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-primary" />
+                <div className="text-2xl font-bold">
+                  {Math.floor(stats.totalTime / 60)}m {stats.totalTime % 60}s
+                </div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Total Study Time
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-muted/60 border-none">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2">
+                <PieChart className="h-5 w-5 text-primary" />
+                <div className="text-2xl font-bold">
+                  {stats.averageAccuracy}%
+                </div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Average Accuracy
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-muted/60 border-none">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-primary" />
+                <div className="text-2xl font-bold">
+                  {stats.currentStreak} days
+                </div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Current Streak
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="calendar" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+            <TabsTrigger value="time">Time</TabsTrigger>
+            <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="calendar" className="w-full flex">
+            <Card className="bg-muted/60 border-none">
+              <CardHeader>
+                <CardTitle>Study Calendar</CardTitle>
+                <CardDescription>
+                  View your study activity over time
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StudyCalendar studySessions={studySessions} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="time" className="w-full flex">
+            <Card className="bg-muted/60 border-none">
+              <CardHeader>
+                <CardTitle>Study Time</CardTitle>
+                <CardDescription>
+                  Track how much time you spend studying each day
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StudyTimeChart studySessions={studySessions} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="accuracy" className="w-full flex">
+            <Card className="bg-muted/60 border-none">
+              <CardHeader>
+                <CardTitle>Accuracy Rate</CardTitle>
+                <CardDescription>
+                  Track your answer accuracy over time
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <AccuracyChart studySessions={studySessions} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <Tabs defaultValue="calendar" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="calendar">Calendar</TabsTrigger>
-          <TabsTrigger value="time">Time</TabsTrigger>
-          <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="calendar" className="w-full flex">
-          <Card>
-            <CardHeader>
-              <CardTitle>Study Calendar</CardTitle>
-              <CardDescription>View your study activity over time</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <StudyCalendar studySessions={studySessions} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="time" className="w-full flex">
-          <Card>
-            <CardHeader>
-              <CardTitle>Study Time</CardTitle>
-              <CardDescription>Track how much time you spend studying each day</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <StudyTimeChart studySessions={studySessions} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="accuracy" className="w-full flex">
-          <Card>
-            <CardHeader>
-              <CardTitle>Accuracy Rate</CardTitle>
-              <CardDescription>Track your answer accuracy over time</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AccuracyChart studySessions={studySessions} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
     </div>
-    </div>
-  )
+  );
 }
-

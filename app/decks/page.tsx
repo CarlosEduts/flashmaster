@@ -93,7 +93,7 @@ export default function DecksPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDecks.map((deck) => (
               <Link href={`/decks/${deck.id}`} key={deck.id}>
-                <Card className="h-full transition-all hover:shadow-md">
+                <Card className="h-full transition-all hover:shadow-md bg-muted/60 border-none">
                   <CardHeader>
                     <CardTitle>{deck.name}</CardTitle>
                     <CardDescription>{deck.description}</CardDescription>

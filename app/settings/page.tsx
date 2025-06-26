@@ -256,7 +256,7 @@ export default function SettingsPage() {
 
           <TabsContent value="appearance">
             <div className="grid gap-8">
-              <Card>
+              <Card className="bg-muted/60 border-none">
                 <CardHeader>
                   <CardTitle>Theme</CardTitle>
                   <CardDescription>
@@ -297,7 +297,7 @@ export default function SettingsPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-muted/60 border-none">
                 <CardHeader>
                   <CardTitle>Color Theme</CardTitle>
                   <CardDescription>
@@ -453,7 +453,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="study">
-            <Card>
+            <Card className="bg-muted/60 border-none">
               <CardHeader>
                 <CardTitle>Study Preferences</CardTitle>
                 <CardDescription>
@@ -508,7 +508,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="data">
-            <Card>
+            <Card className="bg-muted/60 border-none">
               <CardHeader>
                 <CardTitle>Data Management</CardTitle>
                 <CardDescription>
