@@ -27,10 +27,6 @@
 - **shadcn/ui** (componentes de interface)
 - **lucide-react** (ícones)
 
-## 🚀 Deploy
-
-O projeto está configurado para deploy automático no Vercel.
-
 ## 🖼️ Capturas de Tela
 
 <div align="center">
@@ -45,33 +41,10 @@ O projeto está configurado para deploy automático no Vercel.
 
 1. **Crie um Deck:** Agrupe todos os flashcards com o mesmo tema através de um "Deck"
 
-2. **Adicionar Flashcards:** Clique em “Novo Card”, preencha pergunta e resposta.
+2. **Adicionar Flashcards:** Clique em “add Card”, preencha pergunta e resposta.
 
-3. **Iniciar Sessão de Estudo:** Vá para “Estudos” e comece a revisar os cards agendados.
+3. **Iniciar Sessão de Estudo:** Clique “Study” e comece a revisar os cards.
 
-4. **Acompanhar Estatísticas:** Na aba “Progresso”, visualize gráficos de desempenho e ajuste seus ciclos de estudo.
-
-## 🤝 Contribuindo
-
-1. Faça um fork deste repositório.
-2. Crie uma branch para sua feature:
-
-   ```bash
-   git checkout -b feature/nome-da-feature
-   ```
-
-3. Faça suas alterações e commite:
-
-   ```bash
-   git commit -m "🚀 Adiciona nova feature"
-   ```
-
-4. Envie para o repositório remoto:
-
-   ```bash
-   git push origin feature/nome-da-feature
-   ```
-
-5. Abra um Pull Request e aguarde minha análise.
+4. **Acompanhar Estatísticas:** Na aba “Statistics”, visualize gráficos de desempenho de estudo.
 
 #### Se este projeto te ajudou, deixe uma ⭐
