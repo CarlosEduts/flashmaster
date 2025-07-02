@@ -43,7 +43,7 @@ O projeto está configurado para deploy automático no Vercel.
 
 ## 📚 Como Usar
 
-1. **Crie um Deack:** Agrupe todos os flashcards com o mesmo tema através de um "Deack"
+1. **Crie um Deck:** Agrupe todos os flashcards com o mesmo tema através de um "Deck"
 
 2. **Adicionar Flashcards:** Clique em “Novo Card”, preencha pergunta e resposta.
 
