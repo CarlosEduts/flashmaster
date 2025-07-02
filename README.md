@@ -34,9 +34,11 @@ O projeto está configurado para deploy automático no Vercel.
 ## 🖼️ Capturas de Tela
 
 <div align="center">
-  <img src="" alt="Dashboard do FlashMaster" width="600" />
-  <br><br>
-  <img src="" alt="Repetição Espaçada" width="600" />
+  <img src="./public/screenshots/dashboard.png" alt="Dashboard do FlashMaster" width="600" />
+  <br>
+  <img src="./public/screenshots/statistics.png" alt="Statistics do FlashMaster" width="600" />
+  <br>
+  <img src="./public/screenshots/settings.png" alt="Settings do FlashMaster" width="600" />
 </div>
 
 ## 📚 Como Usar
